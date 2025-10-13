@@ -66,15 +66,23 @@ Mat3d euler2dcm(Vec3d &euler) {
   double cp = std::cos(phi);
   double sp = std::sin(phi);
 
+  // clang-format off
   Mat3d Cx, Cy, Cz;
-  Cx << cs, ss, 0.0, -ss, cs, 0.0, 0.0, 0.0, 1.0;
+  Cz << cs, -ss,  0.0,
+        ss,  cs,  0.0,
+        0.0, 0.0, 1.0;
 
-  Cy << ct, 0.0, -st, 0.0, 1.0, 0.0, st, 0.0, ct;
+  Cy << ct,  0.0, st,
+        0.0, 1.0, 0.0,
+       -st,  0.0, ct;
 
-  Cz << 1.0, 0.0, 0.0, 0.0, cp, sp, 0.0, -sp, cp;
+  Cx << 1.0, 0.0, 0.0,
+        0.0, cp, -sp,
+        0.0, sp, cp;
+  // clang-format on
 
   Mat3d dcm = Mat3d::Zero();
-  dcm       = Cx.transpose() * Cy.transpose() * Cz.transpose();
+  dcm       = Cz * Cy * Cx;
   // dcm = dcmNormalize(dcm);
 
   return dcm;

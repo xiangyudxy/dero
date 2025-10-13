@@ -88,7 +88,7 @@ Vec4d dcm2quat(Mat3d &dcm) {
   quat(2, 0) = std::sqrt(1.0 / 4.0 * (1.0 - dcm(0, 0) + dcm(1, 1) - dcm(2, 2)));
   quat(3, 0) = std::sqrt(1.0 / 4.0 * (1.0 - dcm(0, 0) - dcm(1, 1) + dcm(2, 2)));
 
-  int max_idx = 1;
+  int max_idx = 0;
   for (int i = 1; i <= 3; i++) {
     if (quat(i, 0) > quat(max_idx, 0)) {
       max_idx = i;
@@ -102,18 +102,18 @@ Vec4d dcm2quat(Mat3d &dcm) {
 
   } else if (max_idx == 1) {
     quat(0, 0) = (dcm(2, 1) - dcm(1, 2)) / 4.0 / quat(1, 0);
-    quat(2, 0) = (dcm(1, 0) - dcm(0, 1)) / 4.0 / quat(1, 0);
-    quat(3, 0) = (dcm(0, 2) - dcm(2, 0)) / 4.0 / quat(1, 0);
+    quat(2, 0) = (dcm(1, 0) + dcm(0, 1)) / 4.0 / quat(1, 0);
+    quat(3, 0) = (dcm(0, 2) + dcm(2, 0)) / 4.0 / quat(1, 0);
 
   } else if (max_idx == 2) {
     quat(0, 0) = (dcm(0, 2) - dcm(2, 0)) / 4.0 / quat(2, 0);
-    quat(1, 0) = (dcm(1, 0) - dcm(0, 1)) / 4.0 / quat(2, 0);
-    quat(3, 0) = (dcm(2, 1) - dcm(1, 2)) / 4.0 / quat(2, 0);
+    quat(1, 0) = (dcm(1, 0) + dcm(0, 1)) / 4.0 / quat(2, 0);
+    quat(3, 0) = (dcm(2, 1) + dcm(1, 2)) / 4.0 / quat(2, 0);
 
   } else if (max_idx == 3) {
     quat(0, 0) = (dcm(1, 0) - dcm(0, 1)) / 4.0 / quat(3, 0);
-    quat(1, 0) = (dcm(0, 2) - dcm(2, 0)) / 4.0 / quat(3, 0);
-    quat(2, 0) = (dcm(2, 1) - dcm(1, 2)) / 4.0 / quat(3, 0);
+    quat(1, 0) = (dcm(0, 2) + dcm(2, 0)) / 4.0 / quat(3, 0);
+    quat(2, 0) = (dcm(2, 1) + dcm(1, 2)) / 4.0 / quat(3, 0);
 
   } // if
 
